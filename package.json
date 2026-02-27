@@ -1,0 +1,69 @@
+{
+  "name": "du-erp-backend",
+  "version": "1.0.0",
+  "description": "Delhi University ERP System - NEP 2020 Compliant",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --coverageReporters=text-summary",
+    "test:unit": "jest tests/*.test.js --testPathIgnorePatterns=integration",
+    "test:integration": "jest tests/integration",
+    "test:auth": "jest tests/auth.test.js",
+    "test:admin": "jest tests/roles/admin.test.js",
+    "test:hod": "jest tests/roles/hod.test.js",
+    "test:faculty": "jest tests/roles/faculty.test.js",
+    "test:student": "jest tests/roles/student.test.js",
+    "test:roles": "jest tests/roles/",
+    "test:all": "jest --testPathPattern='tests/'",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.js\"",
+    "prepare": "npm install"
+  },
+  "keywords": [
+    "erp",
+    "university",
+    "nep-2020",
+    "mongodb",
+    "express"
+  ],
+  "author": "Delhi University",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "googleapis": "^171.4.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^8.0.1",
+    "qrcode": "^1.5.3",
+    "tesseract.js": "^7.0.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "babel-jest": "^30.2.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^10.1.8",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.8.1",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
