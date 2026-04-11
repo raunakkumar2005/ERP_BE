@@ -34,7 +34,7 @@ const commonSchemas = {
 
   // UUID parameter
   idParam: Joi.object({
-    id: Joi.string().uuid().required()
+    id: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
   }),
 
   // Date range query
@@ -121,13 +121,13 @@ const departmentSchemas = {
   create: Joi.object({
     name: Joi.string().min(2).max(100).required(),
     code: Joi.string().min(2).max(10).uppercase().required(),
-    hodId: Joi.string().uuid()
+    hodId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
   }),
 
   update: Joi.object({
     name: Joi.string().min(2).max(100),
     code: Joi.string().min(2).max(10).uppercase(),
-    hodId: Joi.string().uuid(),
+    hodId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
     isActive: Joi.boolean()
   })
 };
@@ -146,7 +146,7 @@ const courseSchemas = {
     description: Joi.string().max(1000),
     credits: Joi.number().integer().min(1).max(10),
     type: Joi.string().valid('core', 'elective', 'multidisciplinary', 'skill-based'),
-    department: Joi.string().uuid().required()
+    department: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
   }),
 
   update: Joi.object({
@@ -161,7 +161,7 @@ const courseSchemas = {
     description: Joi.string().max(1000),
     credits: Joi.number().integer().min(1).max(10),
     type: Joi.string().valid('core', 'elective', 'multidisciplinary', 'skill-based'),
-    department: Joi.string().uuid()
+    department: Joi.string().pattern(/^[0-9a-fA-F]{24}$/)
   })
 };
 
@@ -185,11 +185,11 @@ const noticeSchemas = {
 // Attendance validation schemas
 const attendanceSchemas = {
   mark: Joi.object({
-    courseId: Joi.string().uuid().required(),
+    courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     date: Joi.date().iso().required(),
     students: Joi.array().items(
       Joi.object({
-        studentId: Joi.string().uuid().required(),
+        studentId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
         status: Joi.string().valid('present', 'absent', 'late').required()
       })
     ).min(1).required()
@@ -205,7 +205,7 @@ const attendanceSchemas = {
 const assignmentSchemas = {
   create: Joi.object({
     title: Joi.string().min(3).max(200).required(),
-    courseId: Joi.string().uuid().required(),
+    courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     courseName: Joi.string(),
     description: Joi.string().max(2000),
     dueDate: Joi.date().iso().required(),
@@ -237,15 +237,15 @@ const assignmentSchemas = {
 // Fee validation schemas
 const feeSchemas = {
   payment: Joi.object({
-    feeStructureId: Joi.string().uuid().required(),
+    feeStructureId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     amount: Joi.number().positive().required(),
     paymentMethod: Joi.string().valid('card', 'netbanking', 'upi', 'cash', 'cheque').required(),
     transactionId: Joi.string().required()
   }),
 
   generateInvoice: Joi.object({
-    studentId: Joi.string().uuid().required(),
-    feeStructures: Joi.array().items(Joi.string().uuid()).min(1).required(),
+    studentId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+    feeStructures: Joi.array().items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/)).min(1).required(),
     academicYear: Joi.string().required(),
     semester: Joi.string().required()
   })
@@ -267,7 +267,7 @@ const grievanceSchemas = {
   }),
 
   assign: Joi.object({
-    assignedTo: Joi.string().uuid().required()
+    assignedTo: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
   })
 };
 
@@ -311,13 +311,13 @@ const activitySchemas = {
 // Workload validation schemas
 const workloadSchemas = {
   allocate: Joi.object({
-    facultyId: Joi.string().uuid().required(),
+    facultyId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     facultyName: Joi.string(),
     academicYear: Joi.string().required(),
     semester: Joi.number().integer().min(1).max(12).required(),
     courses: Joi.array().items(
       Joi.object({
-        courseId: Joi.string().uuid().required(),
+        courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
         courseName: Joi.string(),
         hoursPerWeek: Joi.number().positive(),
         studentCount: Joi.number().integer().min(0),
@@ -333,7 +333,7 @@ const workloadSchemas = {
   update: Joi.object({
     courses: Joi.array().items(
       Joi.object({
-        courseId: Joi.string().uuid(),
+        courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
         courseName: Joi.string(),
         hoursPerWeek: Joi.number().positive(),
         studentCount: Joi.number().integer().min(0),
@@ -349,8 +349,8 @@ const workloadSchemas = {
 // Mentorship validation schemas
 const mentorshipSchemas = {
   assign: Joi.object({
-    mentorId: Joi.string().uuid().required(),
-    menteeId: Joi.string().uuid().required(),
+    mentorId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+    menteeId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     goals: Joi.array().items(Joi.string()),
     meetingSchedule: Joi.string()
   }),
@@ -391,7 +391,7 @@ const approvalSchemas = {
   }),
 
   escalate: Joi.object({
-    escalateTo: Joi.string().uuid().required(),
+    escalateTo: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     reason: Joi.string().min(10).max(1000).required()
   })
 };
@@ -399,10 +399,10 @@ const approvalSchemas = {
 // Results validation schemas
 const resultsSchemas = {
   submit: Joi.object({
-    courseId: Joi.string().uuid().required(),
+    courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     results: Joi.array().items(
       Joi.object({
-        studentId: Joi.string().uuid().required(),
+        studentId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
         totalMarks: Joi.number().min(0).required(),
         obtainedMarks: Joi.number().min(0).required(),
         grade: Joi.string().max(5),
@@ -423,7 +423,7 @@ const resultsSchemas = {
   }),
 
   calculateCGPA: Joi.object({
-    studentId: Joi.string().uuid().required(),
+    studentId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     upToSemester: Joi.number().integer().min(1).max(12)
   })
 };
@@ -431,7 +431,7 @@ const resultsSchemas = {
 // Registration validation schemas
 const registrationSchemas = {
   register: Joi.object({
-    courseIds: Joi.array().items(Joi.string().uuid()).min(1).required(),
+    courseIds: Joi.array().items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/)).min(1).required(),
     semester: Joi.number().integer().min(1).max(12).required(),
     academicYear: Joi.string().required()
   })
@@ -440,15 +440,15 @@ const registrationSchemas = {
 // Timetable validation schemas
 const timetableSchemas = {
   create: Joi.object({
-    departmentId: Joi.string().uuid().required(),
+    departmentId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     semester: Joi.number().integer().min(1).max(12).required(),
     academicYear: Joi.string().required(),
     schedule: Joi.array().items(
       Joi.object({
-        courseId: Joi.string().uuid(),
+        courseId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
         courseName: Joi.string(),
         courseCode: Joi.string(),
-        facultyId: Joi.string().uuid(),
+        facultyId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
         facultyName: Joi.string(),
         day: Joi.string().valid('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'),
         startTime: Joi.string().pattern(/^([01]\d|2[0-3]):([0-5]\d)$/),
@@ -466,7 +466,7 @@ const fileSchemas = {
   upload: Joi.object({
     type: Joi.string().valid('assignment', 'certificate', 'document', 'avatar', 'other').required(),
     relatedEntity: Joi.string(),
-    relatedEntityId: Joi.string().uuid()
+    relatedEntityId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/)
   })
 };
 

@@ -6,6 +6,7 @@ const { asyncHandler, NotFoundError } = require('../middleware/errorHandler');
 const Department = require('../models/Department');
 const User = require('../models/User');
 
+
 // GET /departments - Get all departments
 router.get('/', authenticate, asyncHandler(async (req, res) => {
   const departments = await Department.find({ isActive: true });

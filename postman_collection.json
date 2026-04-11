@@ -1,0 +1,2729 @@
+{
+  "info": {
+    "name": "Delhi University ERP API",
+    "description": "Complete API collection for Delhi University ERP System with NEP 2020 compliance",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@du.ac.in\",\n  \"password\": \"admin123\",\n  \"rememberMe\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@du.ac.in\",\n  \"password\": \"student123\",\n  \"role\": \"student\",\n  \"name\": \"John Doe\",\n  \"department\": \"60f6b8b8b8b8b8b8b8b8b8b8\",\n  \"phone\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@du.ac.in\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forgot-password"]
+            }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"reset-token-here\",\n  \"newPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh-token",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh-token"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/profile",
+              "host": ["{{base_url}}"],
+              "path": ["users", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/profile",
+              "host": ["{{base_url}}"],
+              "path": ["users", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Get Public Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/public-profile/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "public-profile", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Generate QR Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/generate-qr",
+              "host": ["{{base_url}}"],
+              "path": ["users", "generate-qr"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated User Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Users by Department",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/department/{{department_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "department", "{{department_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Department Management",
+      "item": [
+        {
+          "name": "Get All Departments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/departments",
+              "host": ["{{base_url}}"],
+              "path": ["departments"]
+            }
+          }
+        },
+        {
+          "name": "Create Department",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Computer Science\",\n  \"code\": \"CS\",\n  \"hodId\": \"{{hod_user_id}}\",\n  \"hodName\": \"Dr. HOD Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/departments",
+              "host": ["{{base_url}}"],
+              "path": ["departments"]
+            }
+          }
+        },
+        {
+          "name": "Update Department",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Department Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/departments/{{department_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["departments", "{{department_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Department",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/departments/{{department_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["departments", "{{department_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Department Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/departments/{{department_id}}/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["departments", "{{department_id}}", "statistics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Management",
+      "item": [
+        {
+          "name": "Get Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/courses?department={{department_id}}&semester=3",
+              "host": ["{{base_url}}"],
+              "path": ["courses"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "{{department_id}}"
+                },
+                {
+                  "key": "semester",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Advanced Programming\",\n  \"code\": \"CS301\",\n  \"semester\": \"3\",\n  \"faculty\": \"Dr. Faculty Name\",\n  \"credits\": 4,\n  \"type\": \"core\",\n  \"department\": \"{{department_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/courses",
+              "host": ["{{base_url}}"],
+              "path": ["courses"]
+            }
+          }
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Course Name\",\n  \"credits\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/courses/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/courses/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Course Enrollment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/courses/{{course_id}}/enrollment",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "{{course_id}}", "enrollment"]
+            }
+          }
+        },
+        {
+          "name": "Enroll in Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/courses/{{course_id}}/enroll",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "{{course_id}}", "enroll"]
+            }
+          }
+        },
+        {
+          "name": "Drop Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/courses/{{course_id}}/enroll",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "{{course_id}}", "enroll"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Timetable Management",
+      "item": [
+        {
+          "name": "Get Student Timetable",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/timetable/student/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "student", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Faculty Timetable",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/timetable/faculty/{{faculty_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "faculty", "{{faculty_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Department Timetable",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/timetable/department/{{department_id}}?semester=3",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "department", "{{department_id}}"],
+              "query": [
+                {
+                  "key": "semester",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Timetable",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"departmentId\": \"{{department_id}}\",\n  \"semester\": 3,\n  \"academicYear\": \"2024-2025\",\n  \"schedule\": [\n    {\n      \"courseId\": \"{{course_id}}\",\n      \"courseName\": \"Advanced Programming\",\n      \"courseCode\": \"CS301\",\n      \"facultyId\": \"{{faculty_id}}\",\n      \"facultyName\": \"Dr. Faculty Name\",\n      \"day\": \"monday\",\n      \"startTime\": \"09:00\",\n      \"endTime\": \"11:00\",\n      \"room\": \"A101\",\n      \"type\": \"lecture\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/timetable",
+              "host": ["{{base_url}}"],
+              "path": ["timetable"]
+            }
+          }
+        },
+        {
+          "name": "Upload Timetable OCR",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/path/to/timetable.jpg"
+                },
+                {
+                  "key": "departmentId",
+                  "value": "{{department_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "semester",
+                  "value": "3",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/timetable/ocr-upload",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "ocr-upload"]
+            }
+          }
+        },
+        {
+          "name": "Check OCR Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/timetable/ocr-status/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "ocr-status", "{{job_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Sync Google Calendar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timetableId\": \"{{timetable_id}}\",\n  \"syncType\": \"individual\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/timetable/google-calendar-sync",
+              "host": ["{{base_url}}"],
+              "path": ["timetable", "google-calendar-sync"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notice Management",
+      "item": [
+        {
+          "name": "Get Notices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notices?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["notices"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Notice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Academic Calendar\",\n  \"content\": \"Please find the updated academic calendar attached.\",\n  \"targetRoles\": [\"student\", \"faculty\"],\n  \"priority\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notices",
+              "host": ["{{base_url}}"],
+              "path": ["notices"]
+            }
+          }
+        },
+        {
+          "name": "Update Notice",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Academic Calendar\",\n  \"priority\": \"medium\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notices/{{notice_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["notices", "{{notice_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notice",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notices/{{notice_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["notices", "{{notice_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notice as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notices/{{notice_id}}/read",
+              "host": ["{{base_url}}"],
+              "path": ["notices", "{{notice_id}}", "read"]
+            }
+          }
+        },
+        {
+          "name": "Get Notice Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notices/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["notices", "analytics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance Management",
+      "item": [
+        {
+          "name": "Get Student Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/student/{{student_id}}?courseId={{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "student", "{{student_id}}"],
+              "query": [
+                {
+                  "key": "courseId",
+                  "value": "{{course_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Course Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/course/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "course", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"{{course_id}}\",\n  \"date\": \"2024-03-17\",\n  \"students\": [\n    {\n      \"studentId\": \"{{student_id}}\",\n      \"status\": \"present\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/mark",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "mark"]
+            }
+          }
+        },
+        {
+          "name": "Update Attendance",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"late\",\n  \"notes\": \"Student arrived late due to traffic\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/{{attendance_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "{{attendance_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/reports?type=class&period=monthly",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "reports"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "class"
+                },
+                {
+                  "key": "period",
+                  "value": "monthly"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment Management",
+      "item": [
+        {
+          "name": "Get Student Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/assignments/student",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "student"]
+            }
+          }
+        },
+        {
+          "name": "Get Faculty Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/assignments/faculty",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "faculty"]
+            }
+          }
+        },
+        {
+          "name": "Create Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Programming Assignment 1\",\n  \"courseId\": \"{{course_id}}\",\n  \"courseName\": \"Advanced Programming\",\n  \"description\": \"Complete the given programming task.\",\n  \"dueDate\": \"2024-03-25T23:59:59Z\",\n  \"maxMarks\": 100,\n  \"instructions\": \"Submit your code with proper documentation.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assignments",
+              "host": ["{{base_url}}"],
+              "path": ["assignments"]
+            }
+          }
+        },
+        {
+          "name": "Update Assignment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Assignment Title\",\n  \"dueDate\": \"2024-03-30T23:59:59Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assignments/{{assignment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "{{assignment_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Assignment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/assignments/{{assignment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "{{assignment_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Submit Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignmentId\": \"{{assignment_id}}\",\n  \"fileUrl\": \"https://example.com/assignment.pdf\",\n  \"studentId\": \"{{student_id}}\",\n  \"studentName\": \"Student Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assignments/{{assignment_id}}/submit",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "{{assignment_id}}", "submit"]
+            }
+          }
+        },
+        {
+          "name": "Grade Assignment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marksObtained\": 85,\n  \"feedback\": \"Good work, but needs more optimization.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assignments/submissions/{{submission_id}}/grade",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "submissions", "{{submission_id}}", "grade"]
+            }
+          }
+        },
+        {
+          "name": "Get Assignment Submissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/assignments/{{assignment_id}}/submissions",
+              "host": ["{{base_url}}"],
+              "path": ["assignments", "{{assignment_id}}", "submissions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fee Management",
+      "item": [
+        {
+          "name": "Get Student Fees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fees/student/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["fees", "student", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Process Fee Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feeStructureId\": \"{{fee_structure_id}}\",\n  \"amount\": 50000,\n  \"paymentMethod\": \"upi\",\n  \"transactionId\": \"txn_123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/fees/payment",
+              "host": ["{{base_url}}"],
+              "path": ["fees", "payment"]
+            }
+          }
+        },
+        {
+          "name": "Get Fee Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fees/reports",
+              "host": ["{{base_url}}"],
+              "path": ["fees", "reports"]
+            }
+          }
+        },
+        {
+          "name": "Generate Invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{student_id}}\",\n  \"feeStructures\": [\"{{fee_structure_id}}\"],\n  \"academicYear\": \"2024-2025\",\n  \"semester\": \"3\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/fees/generate-invoice",
+              "host": ["{{base_url}}"],
+              "path": ["fees", "generate-invoice"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Grievance Management",
+      "item": [
+        {
+          "name": "Get Student Grievances",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/grievances/student",
+              "host": ["{{base_url}}"],
+              "path": ["grievances", "student"]
+            }
+          }
+        },
+        {
+          "name": "Get Assigned Grievances",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/grievances/assigned",
+              "host": ["{{base_url}}"],
+              "path": ["grievances", "assigned"]
+            }
+          }
+        },
+        {
+          "name": "Submit Grievance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"academic\",\n  \"subject\": \"Course Issue\",\n  \"description\": \"Facing issues with course content.\",\n  \"priority\": \"medium\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/grievances",
+              "host": ["{{base_url}}"],
+              "path": ["grievances"]
+            }
+          }
+        },
+        {
+          "name": "Update Grievance Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in-progress\",\n  \"resolution\": \"We are looking into this issue.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/grievances/{{grievance_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["grievances", "{{grievance_id}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Assign Grievance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignedTo\": \"{{faculty_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/grievances/{{grievance_id}}/assign",
+              "host": ["{{base_url}}"],
+              "path": ["grievances", "{{grievance_id}}", "assign"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Extracurricular Activities",
+      "item": [
+        {
+          "name": "Get Student Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities/student/{{student_id}}?type=sports&verified=true",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "student", "{{student_id}}"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "sports"
+                },
+                {
+                  "key": "verified",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Log Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activityType\": \"sports\",\n  \"title\": \"Annual Sports Event\",\n  \"description\": \"Participated in annual sports event.\",\n  \"participationType\": \"participant\",\n  \"startDate\": \"2024-03-01\",\n  \"endDate\": \"2024-03-05\",\n  \"hoursInvolved\": 20,\n  \"skillsGained\": [\"Teamwork\", \"Leadership\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/activities",
+              "host": ["{{base_url}}"],
+              "path": ["activities"]
+            }
+          }
+        },
+        {
+          "name": "Update Activity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Activity Title\",\n  \"hoursInvolved\": 25\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/activities/{{activity_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "{{activity_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Activity",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities/{{activity_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "{{activity_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Verify Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"verified\",\n  \"comments\": \"Activity verified successfully.\",\n  \"nepPoints\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/activities/{{activity_id}}/verify",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "{{activity_id}}", "verify"]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Verifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities/verification-pending",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "verification-pending"]
+            }
+          }
+        },
+        {
+          "name": "Get Activity Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities/analytics/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["activities", "analytics", "{{student_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workload Allocation",
+      "item": [
+        {
+          "name": "Get Faculty Workload",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/workload/faculty/{{faculty_id}}?academicYear=2024-2025&semester=3",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "faculty", "{{faculty_id}}"],
+              "query": [
+                {
+                  "key": "academicYear",
+                  "value": "2024-2025"
+                },
+                {
+                  "key": "semester",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Department Workload",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/workload/department/{{department_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "department", "{{department_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Workload Allocation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"facultyId\": \"{{faculty_id}}\",\n  \"facultyName\": \"Dr. Faculty Name\",\n  \"academicYear\": \"2024-2025\",\n  \"semester\": 3,\n  \"courses\": [\n    {\n      \"courseId\": \"{{course_id}}\",\n      \"courseName\": \"Advanced Programming\",\n      \"hoursPerWeek\": 6,\n      \"studentCount\": 40,\n      \"courseType\": \"theory\"\n    }\n  ],\n  \"totalHours\": 12,\n  \"maxHours\": 16\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workload/allocate",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "allocate"]
+            }
+          }
+        },
+        {
+          "name": "Update Workload Allocation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"totalHours\": 14,\n  \"courses\": [\n    {\n      \"courseId\": \"{{course_id}}\",\n      \"courseName\": \"Advanced Programming\",\n      \"hoursPerWeek\": 8,\n      \"studentCount\": 40,\n      \"courseType\": \"theory\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workload/{{workload_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "{{workload_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Approve Workload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/workload/{{workload_id}}/approve",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "{{workload_id}}", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Get Workload Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/workload/reports?department={{department_id}}&format=json",
+              "host": ["{{base_url}}"],
+              "path": ["workload", "reports"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "{{department_id}}"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mentorship System",
+      "item": [
+        {
+          "name": "Get Mentor Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mentorship/mentor/{{faculty_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "mentor", "{{faculty_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Mentee Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mentorship/mentee/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "mentee", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Assign Mentor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mentorId\": \"{{faculty_id}}\",\n  \"menteeId\": \"{{student_id}}\",\n  \"goals\": [\"Academic improvement\", \"Career guidance\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/mentorship/assign",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "assign"]
+            }
+          }
+        },
+        {
+          "name": "Log Mentorship Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2024-03-17T10:00:00Z\",\n  \"duration\": 45,\n  \"type\": \"academic\",\n  \"topics\": [\"Course selection\", \"Study techniques\"],\n  \"outcomes\": \"Student decided on course selection\",\n  \"nextSteps\": \"Follow up next month\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/mentorship/{{mentorship_id}}/session",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "{{mentorship_id}}", "session"]
+            }
+          }
+        },
+        {
+          "name": "Update Mentorship Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"reason\": \"Student graduated\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/mentorship/{{mentorship_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "{{mentorship_id}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get Mentorship Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mentorship/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["mentorship", "analytics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Approval Workflows",
+      "item": [
+        {
+          "name": "Get Pending Approvals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/approvals/pending",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "pending"]
+            }
+          }
+        },
+        {
+          "name": "Get Approval History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/approvals/history?type=course_change&status=approved",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "history"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "course_change"
+                },
+                {
+                  "key": "status",
+                  "value": "approved"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Approval Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"course_change\",\n  \"title\": \"Course Schedule Change\",\n  \"description\": \"Requesting to change course schedule.\",\n  \"priority\": \"medium\",\n  \"approverLevel\": \"hod\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/approvals/request",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "request"]
+            }
+          }
+        },
+        {
+          "name": "Take Approval Action",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"approved\",\n  \"comments\": \"Request approved.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/approvals/{{approval_id}}/action",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "{{approval_id}}", "action"]
+            }
+          }
+        },
+        {
+          "name": "Escalate Approval",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"escalateTo\": \"{{admin_id}}\",\n  \"reason\": \"Requires admin approval\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/approvals/{{approval_id}}/escalate",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "{{approval_id}}", "escalate"]
+            }
+          }
+        },
+        {
+          "name": "Get Approval Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/approvals/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["approvals", "analytics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student Results & Grades",
+      "item": [
+        {
+          "name": "Get Student Results",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/results/student/{{student_id}}?academicYear=2024-2025&semester=3",
+              "host": ["{{base_url}}"],
+              "path": ["results", "student", "{{student_id}}"],
+              "query": [
+                {
+                  "key": "academicYear",
+                  "value": "2024-2025"
+                },
+                {
+                  "key": "semester",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit Course Results",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"{{course_id}}\",\n  \"results\": [\n    {\n      \"studentId\": \"{{student_id}}\",\n      \"totalMarks\": 100,\n      \"obtainedMarks\": 85,\n      \"grade\": \"A\",\n      \"gradePoint\": 8.5\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/results/submit",
+              "host": ["{{base_url}}"],
+              "path": ["results", "submit"]
+            }
+          }
+        },
+        {
+          "name": "Update Individual Result",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"obtainedMarks\": 90,\n  \"grade\": \"A+\",\n  \"gradePoint\": 9.5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/results/{{result_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["results", "{{result_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Overall Performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/results/overall/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["results", "overall", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Generate Transcript",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{student_id}}\",\n  \"includeProvisional\": true,\n  \"format\": \"pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/results/generate-transcript",
+              "host": ["{{base_url}}"],
+              "path": ["results", "generate-transcript"]
+            }
+          }
+        },
+        {
+          "name": "Get Class Performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{faculty_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/results/class-performance/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["results", "class-performance", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Department Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/results/department-analytics",
+              "host": ["{{base_url}}"],
+              "path": ["results", "department-analytics"]
+            }
+          }
+        },
+        {
+          "name": "Get NEP Assessment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/results/nep-assessment/{{student_id}}?includeSkillAssessment=true",
+              "host": ["{{base_url}}"],
+              "path": ["results", "nep-assessment", "{{student_id}}"],
+              "query": [
+                {
+                  "key": "includeSkillAssessment",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Calculate CGPA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{student_id}}\",\n  \"upToSemester\": 4\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/results/calculate-cgpa",
+              "host": ["{{base_url}}"],
+              "path": ["results", "calculate-cgpa"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Registration",
+      "item": [
+        {
+          "name": "Get Available Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/available-courses?semester=3&type=core",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "available-courses"],
+              "query": [
+                {
+                  "key": "semester",
+                  "value": "3"
+                },
+                {
+                  "key": "type",
+                  "value": "core"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register for Courses",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseIds\": [\"{{course_id}}\"],\n  \"semester\": 3,\n  \"academicYear\": \"2024-2025\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/registration/register",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "register"]
+            }
+          }
+        },
+        {
+          "name": "Drop Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/drop/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "drop", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Check Prerequisites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/prerequisites/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "prerequisites", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Join Waitlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/waitlist/{{course_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "waitlist", "{{course_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Registration Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/status",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "status"]
+            }
+          }
+        },
+        {
+          "name": "Approve Registration",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/approve/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "approve", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Department Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/registration/department-overview",
+              "host": ["{{base_url}}"],
+              "path": ["registration", "department-overview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics & Reports",
+      "item": [
+        {
+          "name": "Get Dashboard Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/dashboard?role=admin&period=month",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "dashboard"],
+              "query": [
+                {
+                  "key": "role",
+                  "value": "admin"
+                },
+                {
+                  "key": "period",
+                  "value": "month"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/attendance",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "attendance"]
+            }
+          }
+        },
+        {
+          "name": "Get Academic Performance Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/academic-performance",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "academic-performance"]
+            }
+          }
+        },
+        {
+          "name": "Get Department Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hod_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/department-overview",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "department-overview"]
+            }
+          }
+        },
+        {
+          "name": "Get System Usage Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/system-usage",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "system-usage"]
+            }
+          }
+        },
+        {
+          "name": "Generate Custom Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"attendance\",\n  \"filters\": {\n    \"department\": \"{{department_id}}\",\n    \"dateRange\": {\n      \"start\": \"2024-01-01\",\n      \"end\": \"2024-12-31\"\n    }\n  },\n  \"format\": \"pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/reports/generate",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "generate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "File Management",
+      "item": [
+        {
+          "name": "Upload File",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/path/to/file.pdf"
+                },
+                {
+                  "key": "type",
+                  "value": "assignment",
+                  "type": "text"
+                },
+                {
+                  "key": "relatedEntity",
+                  "value": "assignment",
+                  "type": "text"
+                },
+                {
+                  "key": "relatedEntityId",
+                  "value": "{{assignment_id}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/files/upload",
+              "host": ["{{base_url}}"],
+              "path": ["files", "upload"]
+            }
+          }
+        },
+        {
+          "name": "Download File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/files/{{file_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["files", "{{file_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete File",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/files/{{file_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["files", "{{file_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get User Files",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/files/user/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["files", "user", "{{user_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Charts & Analytics Data",
+      "item": [
+        {
+          "name": "Get Enrollment Trends",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/charts/enrollment-trends?department={{department_id}}&timeframe=year",
+              "host": ["{{base_url}}"],
+              "path": ["charts", "enrollment-trends"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "{{department_id}}"
+                },
+                {
+                  "key": "timeframe",
+                  "value": "year"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/charts/attendance-overview?courseId={{course_id}}&timeframe=semester",
+              "host": ["{{base_url}}"],
+              "path": ["charts", "attendance-overview"],
+              "query": [
+                {
+                  "key": "courseId",
+                  "value": "{{course_id}}"
+                },
+                {
+                  "key": "timeframe",
+                  "value": "semester"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Grade Distribution",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/charts/grade-distribution?courseId={{course_id}}&semester=3",
+              "host": ["{{base_url}}"],
+              "path": ["charts", "grade-distribution"],
+              "query": [
+                {
+                  "key": "courseId",
+                  "value": "{{course_id}}"
+                },
+                {
+                  "key": "semester",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Department Performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/charts/department-performance?departmentId={{department_id}}&metrics=attendance,grades",
+              "host": ["{{base_url}}"],
+              "path": ["charts", "department-performance"],
+              "query": [
+                {
+                  "key": "departmentId",
+                  "value": "{{department_id}}"
+                },
+                {
+                  "key": "metrics",
+                  "value": "attendance,grades"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api/v1"
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "faculty_token",
+      "value": ""
+    },
+    {
+      "key": "student_token",
+      "value": ""
+    },
+    {
+      "key": "hod_token",
+      "value": ""
+    },
+    {
+      "key": "user_token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": ""
+    },
+    {
+      "key": "student_id",
+      "value": ""
+    },
+    {
+      "key": "faculty_id",
+      "value": ""
+    },
+    {
+      "key": "department_id",
+      "value": ""
+    },
+    {
+      "key": "course_id",
+      "value": ""
+    },
+    {
+      "key": "assignment_id",
+      "value": ""
+    },
+    {
+      "key": "submission_id",
+      "value": ""
+    },
+    {
+      "key": "notice_id",
+      "value": ""
+    },
+    {
+      "key": "attendance_id",
+      "value": ""
+    },
+    {
+      "key": "grievance_id",
+      "value": ""
+    },
+    {
+      "key": "activity_id",
+      "value": ""
+    },
+    {
+      "key": "workload_id",
+      "value": ""
+    },
+    {
+      "key": "mentorship_id",
+      "value": ""
+    },
+    {
+      "key": "approval_id",
+      "value": ""
+    },
+    {
+      "key": "result_id",
+      "value": ""
+    },
+    {
+      "key": "fee_structure_id",
+      "value": ""
+    },
+    {
+      "key": "file_id",
+      "value": ""
+    },
+    {
+      "key": "timetable_id",
+      "value": ""
+    },
+    {
+      "key": "job_id",
+      "value": ""
+    },
+    {
+      "key": "admin_id",
+      "value": ""
+    }
+  ]
+}

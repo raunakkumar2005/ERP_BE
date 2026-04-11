@@ -13,6 +13,7 @@ const departmentSchema = new mongoose.Schema({
     required: [true, 'Department code is required'],
     unique: true,
     uppercase: true,
+    index: true,
     trim: true,
     minlength: 2,
     maxlength: 10
@@ -41,7 +42,7 @@ const departmentSchema = new mongoose.Schema({
 });
 
 // Indexes
-departmentSchema.index({ code: 1 }, { unique: true });
+// Note: code has unique: true and index: true in schema
 departmentSchema.index({ isActive: 1 });
 departmentSchema.index({ name: 1 });
 

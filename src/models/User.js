@@ -42,11 +42,13 @@ const userSchema = new mongoose.Schema({
   employeeId: {
     type: String,
     sparse: true,
+    index: true,
     trim: true
   },
   studentId: {
     type: String,
     sparse: true,
+    index: true,
     trim: true
   },
   phone: {
@@ -105,12 +107,11 @@ const userSchema = new mongoose.Schema({
 });
 
 // Indexes for common queries
-userSchema.index({ email: 1 });
+// Note: email has unique: true which auto-creates index
+// Note: employeeId and studentId have index: true in schema
 userSchema.index({ role: 1 });
 userSchema.index({ department: 1 });
 userSchema.index({ isActive: 1 });
-userSchema.index({ employeeId: 1 });
-userSchema.index({ studentId: 1 });
 userSchema.index({ role: 1, department: 1 });
 
 // Virtual for public profile (excludes sensitive fields)

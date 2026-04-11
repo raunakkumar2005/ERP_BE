@@ -14,6 +14,7 @@ const courseSchema = new mongoose.Schema({
     required: [true, 'Course code is required'],
     unique: true,
     uppercase: true,
+    index: true,
     trim: true,
     minlength: 2,
     maxlength: 20
@@ -84,7 +85,7 @@ const courseSchema = new mongoose.Schema({
 });
 
 // Indexes
-courseSchema.index({ code: 1 }, { unique: true });
+// Note: code has unique: true and index: true in schema
 courseSchema.index({ department: 1 });
 courseSchema.index({ semester: 1 });
 courseSchema.index({ status: 1 });

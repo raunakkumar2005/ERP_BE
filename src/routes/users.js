@@ -101,9 +101,23 @@ router.delete('/:id', authenticate, authorize('admin'), asyncHandler(async (req,
   });
 }));
 
+// GET /users - Get all users
+router.get('/', authenticate,authorize('admin'), asyncHandler(async (req, res) => {
+  const users = await User.find({ isActive: true });
+
+  res.json({
+    success: true,
+    data: users
+  });
+}));
+
 // GET /users/department/:departmentId - Get users by department
-router.get('/department/:departmentId', authenticate, asyncHandler(async (req, res) => {
-  const users = await User.find({ department: req.params.departmentId, isActive: true });
+router.get('/department/:departmentId?', authenticate, asyncHandler(async (req, res) => {
+  const query = { isActive: true };
+  if (req.params.departmentId) {
+    query.department = req.params.departmentId;
+  }
+  const users = await User.find(query);
 
   res.json({
     success: true,
