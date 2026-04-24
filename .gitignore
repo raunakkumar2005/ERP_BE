@@ -36,3 +36,5 @@ coverage/
 # Logs
 logs/
 *.log
+
+*.xlsx

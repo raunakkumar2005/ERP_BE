@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ERP Import Data Viewer</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="panel hero-copy">
+        <div class="eyebrow">Imported Data Viewer</div>
+        <h1>Browse and export imported ERP records.</h1>
+        <p class="lede">
+          Inspect the records currently stored in MongoDB for each import entity and export the
+          current page as JSON or CSV for verification and reporting.
+        </p>
+
+        <div class="inline-links">
+          <a class="button-link ghost" href="/admin/">Open Import Console</a>
+        </div>
+      </div>
+
+      <aside class="panel meta-grid">
+        <div class="meta-card">
+          <p class="meta-label">Scope</p>
+          <p class="meta-value">Departments, users, courses, registrations, fees, timetable, attendance, results.</p>
+        </div>
+        <div class="meta-card">
+          <p class="meta-label">Export</p>
+          <p class="meta-value">Download current result set in CSV or JSON format.</p>
+        </div>
+        <div class="meta-card">
+          <p class="meta-label">Auth</p>
+          <p class="meta-value">Uses the same admin JWT token stored in your browser.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid grid-single">
+      <div class="panel card">
+        <h2>Data controls</h2>
+        <p>Select an entity, fetch rows, and export what you see.</p>
+
+        <div class="row">
+          <div class="field">
+            <label for="token">Admin JWT token</label>
+            <input id="token" type="password" placeholder="Paste Bearer token here">
+          </div>
+          <div class="field">
+            <label for="entity">Entity</label>
+            <select id="entity"></select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="page">Page</label>
+            <input id="page" type="number" min="1" step="1" value="1">
+          </div>
+          <div class="field">
+            <label for="limit">Rows per page</label>
+            <input id="limit" type="number" min="1" max="500" step="1" value="50">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="loadBtn" type="button">Load data</button>
+          <button class="secondary" id="exportCsvBtn" type="button">Export CSV</button>
+          <button class="secondary" id="exportJsonBtn" type="button">Export JSON</button>
+          <button class="ghost" id="saveTokenBtn" type="button">Save token</button>
+          <button class="ghost" id="clearTokenBtn" type="button">Clear token</button>
+        </div>
+
+        <div id="status" class="status">Ready.</div>
+
+        <div id="summary" class="summary" hidden></div>
+
+        <div class="table-wrap" id="tableWrap" hidden>
+          <table id="dataTable" class="data-table">
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <pre id="rawResult" hidden></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/data.js" defer></script>
+</body>
+</html>

@@ -5,16 +5,26 @@ const { validate, assignmentSchemas } = require('../middleware/validation');
 const { asyncHandler, NotFoundError } = require('../middleware/errorHandler');
 const Assignment = require('../models/Assignment');
 const AssignmentSubmission = require('../models/AssignmentSubmission');
+const Course = require('../models/Course');
 
-// GET /assignments/student - Get student assignments
-router.get('/student', authenticate, asyncHandler(async (req, res) => {
-  const assignments = await Assignment.find({ status: 'active' }).populate('courseId', 'name code');
+// GET /assignments/student/:id - Get student assignments
+router.get('/student/:id', authenticate, asyncHandler(async (req, res) => {
+  const enrolledCourseIds = await Course.find(
+    { enrolledStudents: req.params.id },
+    { _id: 1 }
+  ).distinct('_id');
+
+  const assignments = await Assignment.find({
+    status: 'active',
+    courseId: { $in: enrolledCourseIds }
+  }).populate('courseId', 'name code');
+
   res.json({ success: true, data: assignments });
 }));
 
-// GET /assignments/faculty - Get faculty assignments
-router.get('/faculty', authenticate, authorize('faculty'), asyncHandler(async (req, res) => {
-  const assignments = await Assignment.find({ facultyId: req.user._id }).populate('courseId', 'name code');
+// GET /assignments/faculty/:id - Get faculty assignments
+router.get('/faculty/:id', authenticate, authorize('faculty'), asyncHandler(async (req, res) => {
+  const assignments = await Assignment.find({ facultyId: req.params.id }).populate('courseId', 'name code');
   res.json({ success: true, data: assignments });
 }));
 
@@ -46,6 +56,7 @@ router.delete('/:id', authenticate, authorize('faculty'), asyncHandler(async (re
 router.post('/:id/submit', authenticate, validate(assignmentSchemas.submit), asyncHandler(async (req, res) => {
   const assignment = await Assignment.findById(req.params.id);
   if (!assignment) throw new NotFoundError('Assignment not found');
+  console.log(req.body);
   
   const submission = await AssignmentSubmission.findOneAndUpdate(
     { assignmentId: req.params.id, studentId: req.user._id },

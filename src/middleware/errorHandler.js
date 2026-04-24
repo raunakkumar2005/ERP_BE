@@ -1,4 +1,5 @@
 const { ERROR_CODES } = require('../config/constants');
+const util = require('util');
 
 class AppError extends Error {
   constructor(message, code, statusCode = 500, details = null) {
@@ -47,15 +48,56 @@ class RateLimitError extends AppError {
   }
 }
 
+function buildValidationSummary(details) {
+  if (!Array.isArray(details) || details.length === 0) {
+    return null;
+  }
+
+  const groupedBySheet = details.reduce((acc, detail) => {
+    if (!detail || typeof detail !== 'object') {
+      return acc;
+    }
+
+    const sheet = detail.sheet || 'unknown';
+    if (!acc[sheet]) {
+      acc[sheet] = [];
+    }
+
+    acc[sheet].push({
+      row: detail.row ?? detail.rowNumber ?? null,
+      field: detail.field ?? null,
+      message: detail.message || 'Validation error'
+    });
+
+    return acc;
+  }, {});
+
+  return {
+    total: details.length,
+    sheets: Object.keys(groupedBySheet).length,
+    groupedBySheet
+  };
+}
+
 // Global error handler middleware
 const errorHandler = (err, req, res, next) => {
+  const validationSummary = buildValidationSummary(err.details);
+
   // Log error for debugging
   console.error(`Error: ${err.message}`, {
     code: err.code,
     stack: err.stack,
     path: req.path,
-    method: req.method
+    method: req.method,
+    validationSummary: validationSummary || undefined
   });
+
+  if (validationSummary) {
+    console.error(
+      'Validation failure details:\n' +
+      util.inspect(validationSummary.groupedBySheet, { depth: null, maxArrayLength: null, compact: false })
+    );
+  }
 
   // Mongoose validation error
   if (err.name === 'ValidationError') {
@@ -112,13 +154,19 @@ const errorHandler = (err, req, res, next) => {
   const code = err.code || ERROR_CODES.SYS_001;
   const message = err.isOperational ? err.message : 'Internal server error';
 
+  const errorResponse = {
+    code,
+    message,
+    details: err.details || null
+  };
+
+  if (validationSummary) {
+    errorResponse.validationSummary = validationSummary;
+  }
+
   res.status(statusCode).json({
     success: false,
-    error: {
-      code,
-      message,
-      details: err.details || null
-    }
+    error: errorResponse
   });
 };
 

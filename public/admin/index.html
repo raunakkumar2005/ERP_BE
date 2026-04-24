@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ERP Import Admin</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="panel hero-copy">
+        <div class="eyebrow">Bulk Import Console</div>
+        <h1>Upload real ERP data without touching the seed script.</h1>
+        <p class="lede">
+          Use this admin page to download the workbook template, fill in departments, teachers, students,
+          courses, fees, timetable rows, and transaction records, then import it into MongoDB through the API.
+        </p>
+        <div class="inline-links">
+          <a class="button-link ghost" href="/admin/data.html">Open Data Viewer</a>
+        </div>
+      </div>
+
+      <aside class="panel meta-grid">
+        <div class="meta-card">
+          <p class="meta-label">Workbook flow</p>
+          <p class="meta-value">Template download, local edit, dry-run validation, then real import.</p>
+        </div>
+        <div class="meta-card">
+          <p class="meta-label">Auth</p>
+          <p class="meta-value">Paste an admin JWT once. It is stored in this browser only.</p>
+        </div>
+        <div class="meta-card">
+          <p class="meta-label">Import order</p>
+          <p class="meta-value">Departments, teachers, students, courses, registrations, fees, timetable, attendance, results.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <div class="panel card">
+        <h2>Admin login</h2>
+        <p>Sign in once and the access token is stored in this browser for template downloads and imports.</p>
+
+        <div class="row">
+          <div class="field">
+            <label for="email">Admin email</label>
+            <input id="email" type="text" placeholder="admin@erp.demo.edu">
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Your admin password">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="loginBtn" type="button">Sign in and save token</button>
+          <button class="ghost" id="fillDemoBtn" type="button">Fill demo admin</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <h2>Template</h2>
+        <p>Download the latest workbook layout before filling anything in.</p>
+
+        <div class="row">
+          <div class="field">
+            <label for="token">Admin JWT token</label>
+            <input id="token" type="password" placeholder="Paste Bearer token here">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="saveTokenBtn" type="button">Save token</button>
+          <button class="secondary" id="downloadTemplateBtn" type="button">Download template</button>
+          <button class="ghost" id="clearTokenBtn" type="button">Clear token</button>
+        </div>
+
+        <div class="footer-note">
+          Template endpoint: <strong>/api/v1/imports/template</strong>
+        </div>
+      </div>
+
+      <div class="panel card">
+        <h2>Import workbook</h2>
+        <p>Upload your completed Excel file. Dry run checks the rows without writing data.</p>
+
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Select workbook file">
+          <div class="dropzone-title">Drag and drop your workbook here</div>
+          <div class="dropzone-subtitle">or click to browse for an .xlsx file</div>
+          <input id="workbook" type="file" accept=".xlsx,.xls" hidden>
+        </div>
+
+        <div id="fileName" class="file-name">No file selected.</div>
+
+        <div class="check">
+          <input id="dryRun" type="checkbox" checked>
+          <label for="dryRun" style="font-weight:600; margin:0;">Dry run only</label>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="importBtn" type="button">Upload workbook</button>
+          <button class="ghost" id="resetBtn" type="button">Reset form</button>
+        </div>
+
+        <div id="status" class="status">Ready.</div>
+        <pre id="result" hidden></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/app.js" defer></script>
+</body>
+</html>

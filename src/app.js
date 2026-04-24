@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 const connectDB = require('./config/database');
 const { errorHandler } = require('./middleware/errorHandler');
 
@@ -24,6 +25,7 @@ const mentorshipRoutes = require('./routes/mentorship');
 const approvalRoutes = require('./routes/approvals');
 const resultRoutes = require('./routes/results');
 const registrationRoutes = require('./routes/registration');
+const importRoutes = require('./routes/imports');
 const analyticsRoutes = require('./routes/analytics');
 const fileRoutes = require('./routes/files');
 const chartRoutes = require('./routes/charts');
@@ -62,6 +64,9 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Static admin UI
+app.use('/admin', express.static(path.join(__dirname, '../public/admin')));
+
 // Logging
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
@@ -70,6 +75,10 @@ if (process.env.NODE_ENV !== 'test') {
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('/admin', (req, res) => {
+  res.redirect('/admin/');
 });
 
 // API Routes
@@ -89,6 +98,7 @@ app.use('/api/v1/mentorship', mentorshipRoutes);
 app.use('/api/v1/approvals', approvalRoutes);
 app.use('/api/v1/results', resultRoutes);
 app.use('/api/v1/registration', registrationRoutes);
+app.use('/api/v1/imports', importRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/files', fileRoutes);
 app.use('/api/v1/charts', chartRoutes);

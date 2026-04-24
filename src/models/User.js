@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email']
+    match: [/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/, 'Please provide a valid email']
   },
   password: {
     type: String,
@@ -115,7 +115,7 @@ userSchema.index({ isActive: 1 });
 userSchema.index({ role: 1, department: 1 });
 
 // Virtual for public profile (excludes sensitive fields)
-userSchema.virtual('publicProfile').get(function() {
+userSchema.virtual('publicProfile').get(function () {
   return {
     id: this._id,
     name: this.name,
@@ -132,7 +132,7 @@ userSchema.virtual('publicProfile').get(function() {
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -142,12 +142,12 @@ userSchema.pre('save', async function(next) {
 });
 
 // Compare password method
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Soft delete method
-userSchema.methods.deactivate = function() {
+userSchema.methods.deactivate = function () {
   this.isActive = false;
   return this.save();
 };
