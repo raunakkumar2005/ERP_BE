@@ -7,10 +7,10 @@ const Assignment = require('../models/Assignment');
 const AssignmentSubmission = require('../models/AssignmentSubmission');
 const Course = require('../models/Course');
 
-// GET /assignments/student/:id - Get student assignments
-router.get('/student/:id', authenticate, asyncHandler(async (req, res) => {
+// GET /assignments/student - Get student assignments
+router.get('/student', authenticate, asyncHandler(async (req, res) => {
   const enrolledCourseIds = await Course.find(
-    { enrolledStudents: req.params.id },
+    { enrolledStudents: req.query.userId || req.user._id },
     { _id: 1 }
   ).distinct('_id');
 
@@ -22,9 +22,9 @@ router.get('/student/:id', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, data: assignments });
 }));
 
-// GET /assignments/faculty/:id - Get faculty assignments
-router.get('/faculty/:id', authenticate, authorize('faculty'), asyncHandler(async (req, res) => {
-  const assignments = await Assignment.find({ facultyId: req.params.id }).populate('courseId', 'name code');
+// GET /assignments/faculty - Get faculty assignments
+router.get('/faculty', authenticate, authorize('faculty'), asyncHandler(async (req, res) => {
+  const assignments = await Assignment.find({ facultyId: req.query.userId || req.user._id }).populate('courseId', 'name code');
   res.json({ success: true, data: assignments });
 }));
 
